@@ -1,4 +1,4 @@
-package com.example.demo.thread;
+package com.example.demo.juc;
 
 import java.util.ArrayList;
 import java.util.List;

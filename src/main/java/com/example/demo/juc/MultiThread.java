@@ -1,4 +1,4 @@
-package com.example.demo.thread;
+package com.example.demo.juc;
 
 import javax.management.MXBean;
 import java.lang.management.ManagementFactory;
