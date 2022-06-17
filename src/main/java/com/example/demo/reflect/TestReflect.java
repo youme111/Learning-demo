@@ -15,6 +15,11 @@ public class TestReflect {
         Class<?> aClass = Class.forName("com.example.demo.reflect.TargetObject");
         TargetObject object = (TargetObject) aClass.newInstance();
 
+        TargetObject targetObj = new TargetObject();
+        Class<? extends TargetObject> objClass = targetObj.getClass();
+        String name = objClass.getName();
+        System.out.println("---" + name);
+
         /**
          * 获取类中所有定义的方法
          */
