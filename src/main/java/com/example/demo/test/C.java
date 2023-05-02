@@ -16,7 +16,7 @@ public class C extends A{
     }
 
     public static void main(String[] args) {
-        A c = new A();
+        A c = new C();
         c.test(1);
     }
 }

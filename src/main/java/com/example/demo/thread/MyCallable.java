@@ -11,10 +11,12 @@ public class MyCallable implements Callable<String> {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-         MyCallable myCallable = new MyCallable();
-         FutureTask<String> futureTask = new FutureTask<>(myCallable);
-         Thread thread = new Thread(futureTask);
-         thread.start();
+        MyCallable myCallable = new MyCallable();
+        FutureTask<String> futureTask = new FutureTask<>(myCallable);
+        Thread thread = new Thread(futureTask);
+        thread.start();
+        String s = futureTask.get();
+        System.out.println(s);
         System.out.println(futureTask.get());
     }
 }
