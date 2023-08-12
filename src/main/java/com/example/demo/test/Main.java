@@ -1,39 +1,57 @@
 package com.example.demo.test;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> originalList = new ArrayList<>();
-        originalList.add(1);
-        originalList.add(2);
-        originalList.add(3);
-        originalList.add(5);
-        originalList.add(6);
-        originalList.add(8);
+        Main main = new Main();
 
-        List<Integer> consecutiveList = new ArrayList<>();
-        List<Integer> nonConsecutiveList = new ArrayList<>();
+        List<List<Session>> continuousSubsequences = main.getContinuousSubsequences(new ArrayList<>());
 
-        int previousValue = originalList.get(0);
-        consecutiveList.add(previousValue);
-        for (int i = 1; i < originalList.size(); i++) {
-            int currentValue = originalList.get(i);
+        for (List<Session> subsequence : continuousSubsequences) {
+            System.out.println(subsequence);
+        }
+    }
 
-            if (currentValue == previousValue + 1) {
-                consecutiveList.add(currentValue);
+    public List<List<Session>> getContinuousSubsequences(List<Session> sessions) {
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 9, 0), LocalDateTime.of(2023, 8, 1, 10, 0)));
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 10, 0), LocalDateTime.of(2023, 8, 1, 11, 0)));
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 11, 0), LocalDateTime.of(2023, 8, 1, 12, 0)));
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 13, 0), LocalDateTime.of(2023, 8, 1, 14, 0)));
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 14, 0), LocalDateTime.of(2023, 8, 1, 15, 0)));
+        sessions.add(new Session(LocalDateTime.of(2023, 8, 1, 15, 0), LocalDateTime.of(2023, 8, 1, 16, 30)));
+
+        List<List<Session>> result = new ArrayList<>();
+        List<Session> currentSubsequence = new ArrayList<>();
+
+        for (int i = 0; i < sessions.size(); i++) {
+            if (currentSubsequence.isEmpty() || sessions.get(i).getStartTime().isEqual(currentSubsequence.get(currentSubsequence.size() - 1).getEndTime())) {
+                currentSubsequence.add(sessions.get(i));
             } else {
-                if (i == 1) {
-                    consecutiveList.remove(0);
-                }
-                nonConsecutiveList.add(currentValue);
+                result.add(new ArrayList<>(currentSubsequence));
+                currentSubsequence.clear();
+                currentSubsequence.add(sessions.get(i));
             }
-
-            previousValue = currentValue;
         }
 
-        System.out.println("连续的数据：" + consecutiveList);
-        System.out.println("不连续的数据：" + nonConsecutiveList);
+        if (!currentSubsequence.isEmpty()) {
+            result.add(currentSubsequence);
+        }
+
+        return result;
+    }
+
+    @AllArgsConstructor
+    @Data
+    class Session {
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
+
+        // 构造函数、getter和setter等
     }
 }
